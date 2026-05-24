@@ -36,7 +36,6 @@ export default function Quiz() {
     const newAnswers = [...answers, chosenType];
     setAnswers(newAnswers);
     setSelected(null);
-
     if (isLast) {
       setPhase("results");
     } else {
@@ -51,12 +50,8 @@ export default function Quiz() {
     setAnswers([]);
   }
 
-  // Tally results
   const tally = answers.reduce<Record<PersonalityKey, number>>(
-    (acc, key) => {
-      acc[key] = (acc[key] || 0) + 1;
-      return acc;
-    },
+    (acc, key) => { acc[key] = (acc[key] || 0) + 1; return acc; },
     { A: 0, B: 0, C: 0, D: 0, E: 0 }
   );
   const maxCount = Math.max(...Object.values(tally));
@@ -68,46 +63,55 @@ export default function Quiz() {
   // ── Start Screen ──────────────────────────────────────────────
   if (phase === "start") {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-violet-50 px-5 py-10">
-        <div className="w-full max-w-sm rounded-3xl bg-white shadow-xl shadow-indigo-100 overflow-hidden flex flex-col">
-          {/* Hero image */}
-          <div className="relative w-full h-52">
+      <div className="flex min-h-dvh flex-col items-center justify-center bg-[#0d0520] px-5 py-10">
+        <div className="w-full max-w-sm flex flex-col items-center gap-6">
+
+          {/* Conference brand card */}
+          <div className="w-full rounded-3xl overflow-hidden shadow-2xl shadow-purple-900/60 relative">
             <Image
-              src="/quiz-hero.png"
-              alt="Where do I fit?"
-              fill
-              className="object-cover object-top"
+              src="/unfiltered-2026.png"
+              alt="Unfiltered 2026 Youth Fest"
+              width={600}
+              height={340}
+              className="w-full object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-            <div className="absolute bottom-4 left-5 right-5">
-              <h1 className="text-2xl font-bold text-white drop-shadow">{quizTitle}</h1>
-              <p className="text-sm text-white/80">{quizSubtitle}</p>
+          </div>
+
+          {/* Quiz title block */}
+          <div className="text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-400 mb-2">
+              Youth Fest 2026
+            </p>
+            <h1 className="text-3xl font-extrabold text-white leading-tight">
+              {quizTitle}
+            </h1>
+            <p className="mt-2 text-sm text-purple-300">{quizSubtitle}</p>
+          </div>
+
+          {/* Stats row */}
+          <div className="w-full grid grid-cols-2 gap-3">
+            <div className="rounded-2xl bg-purple-900/60 border border-purple-700/50 px-4 py-3 text-center">
+              <p className="text-2xl font-extrabold text-white">{total}</p>
+              <p className="text-xs text-purple-300 mt-0.5">Questions</p>
+            </div>
+            <div className="rounded-2xl bg-purple-900/60 border border-purple-700/50 px-4 py-3 text-center">
+              <p className="text-2xl font-extrabold text-white">5</p>
+              <p className="text-xs text-purple-300 mt-0.5">Results</p>
             </div>
           </div>
 
-          <div className="px-6 py-6 flex flex-col gap-5">
-            <div className="flex flex-col gap-2">
-              {personalityTypes.map((t) => (
-                <div key={t.key} className="flex items-center gap-3 text-sm">
-                  <span className="text-lg w-6 text-center">{t.emoji}</span>
-                  <span className="font-semibold text-slate-700">{t.name}</span>
-                </div>
-              ))}
-            </div>
+          {/* CTA */}
+          <button
+            onClick={handleStart}
+            className="w-full rounded-2xl bg-orange-500 py-4 text-base font-bold text-white shadow-lg shadow-orange-500/30 transition-all active:scale-95 hover:bg-orange-400"
+          >
+            Find Out Where I Fit →
+          </button>
 
-            <div className="rounded-xl bg-indigo-50 px-4 py-3 flex items-center justify-between text-sm">
-              <span className="text-slate-500">Questions</span>
-              <span className="font-bold text-indigo-600">{total}</span>
-            </div>
-
-            <button
-              onClick={handleStart}
-              className="w-full rounded-2xl bg-indigo-600 py-4 text-base font-semibold text-white shadow-md shadow-indigo-200 transition-all active:scale-95 hover:bg-indigo-700"
-            >
-              Start Quiz
-            </button>
-          </div>
+          <p className="text-xs text-purple-500 text-center">
+            Select the answer that feels most like you
+          </p>
         </div>
       </div>
     );
@@ -116,68 +120,68 @@ export default function Quiz() {
   // ── Results Screen ────────────────────────────────────────────
   if (phase === "results") {
     const isTie = topTypes.length > 1;
-
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-violet-50 px-5 py-10">
-        <div className="w-full max-w-sm rounded-3xl bg-white shadow-xl shadow-indigo-100 px-6 py-10 flex flex-col items-center gap-6">
+      <div className="flex min-h-dvh flex-col items-center justify-center bg-[#0d0520] px-5 py-10">
+        <div className="w-full max-w-sm flex flex-col items-center gap-5">
+
+          {/* Header */}
           <div className="text-center">
-            <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">
-              Your result
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-400 mb-1">
+              Your Result
             </p>
-            <h2 className="text-2xl font-bold text-slate-900">
+            <h2 className="text-2xl font-extrabold text-white">
               {isTie ? "You're a blend!" : topTypes[0].name}
             </h2>
           </div>
 
+          {/* Primary type card(s) */}
           {topTypes.map((t) => (
             <div
               key={t.key}
-              className={`w-full rounded-2xl overflow-hidden border-2 ${t.borderColor}`}
+              className="w-full rounded-3xl overflow-hidden shadow-xl shadow-purple-900/50 border border-purple-700/40"
             >
-              {/* Illustration */}
-              <div className="relative w-full h-44">
+              <div className="relative w-full h-48">
                 <Image
                   src={t.image}
                   alt={t.name}
                   fill
                   className="object-cover object-center"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                <div className="absolute bottom-3 left-4 flex items-center gap-2">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0d0520]/90 via-[#0d0520]/30 to-transparent" />
+                <div className="absolute bottom-4 left-5 right-5 flex items-center gap-2">
                   <span className="text-2xl">{t.emoji}</span>
-                  <span className="text-base font-bold text-white drop-shadow">
+                  <span className="text-lg font-extrabold text-white drop-shadow-lg">
                     {t.name}
                   </span>
                 </div>
               </div>
-              {/* Description */}
-              <div className={`${t.lightColor} px-5 py-4`}>
-                <p className="text-sm text-slate-600 leading-relaxed">
+              <div className="bg-purple-900/60 px-5 py-4 border-t border-purple-700/40">
+                <p className="text-sm text-purple-100 leading-relaxed">
                   {t.description}
                 </p>
               </div>
             </div>
           ))}
 
-          {/* Score breakdown */}
-          <div className="w-full rounded-2xl bg-slate-50 p-4 flex flex-col gap-2">
-            <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">
-              Your breakdown
+          {/* Breakdown */}
+          <div className="w-full rounded-2xl bg-purple-900/40 border border-purple-700/40 p-4 flex flex-col gap-2.5">
+            <p className="text-xs font-bold uppercase tracking-widest text-purple-400 mb-1">
+              Your Full Breakdown
             </p>
             {personalityTypes.map((t) => {
               const count = tally[t.key];
               const pct = Math.round((count / total) * 100);
               return (
                 <div key={t.key} className="flex items-center gap-3 text-sm">
-                  <span className="w-5 text-center">{t.emoji}</span>
-                  <span className="w-32 text-slate-600 truncate">{t.name}</span>
-                  <div className="flex-1 h-2 rounded-full bg-slate-200 overflow-hidden">
+                  <span className="w-5 text-center text-base">{t.emoji}</span>
+                  <span className="w-28 text-purple-200 text-xs truncate">{t.name}</span>
+                  <div className="flex-1 h-2 rounded-full bg-purple-800/60 overflow-hidden">
                     <div
-                      className={`h-full rounded-full ${t.color} transition-all duration-700`}
+                      className="h-full rounded-full bg-orange-500 transition-all duration-700"
                       style={{ width: `${pct}%` }}
                     />
                   </div>
-                  <span className="w-6 text-right text-xs font-semibold text-slate-500">
+                  <span className="w-5 text-right text-xs font-bold text-orange-400">
                     {count}
                   </span>
                 </div>
@@ -187,7 +191,7 @@ export default function Quiz() {
 
           <button
             onClick={handleRestart}
-            className="w-full rounded-2xl bg-indigo-600 py-4 text-base font-semibold text-white shadow-md shadow-indigo-200 transition-all active:scale-95 hover:bg-indigo-700"
+            className="w-full rounded-2xl bg-orange-500 py-4 text-base font-bold text-white shadow-lg shadow-orange-500/30 transition-all active:scale-95 hover:bg-orange-400"
           >
             Take It Again
           </button>
@@ -198,28 +202,30 @@ export default function Quiz() {
 
   // ── Question Screen ───────────────────────────────────────────
   return (
-    <div className="flex min-h-dvh flex-col bg-gradient-to-br from-indigo-50 via-white to-violet-50 px-5 pt-8 pb-10">
+    <div className="flex min-h-dvh flex-col bg-[#0d0520] px-5 pt-8 pb-10">
       <div className="w-full max-w-sm mx-auto flex flex-col gap-5 flex-1">
+
         {/* Header */}
-        <div className="flex items-center justify-between text-sm text-slate-500">
-          <span className="font-medium">
-            <span className="text-indigo-600 font-bold">{currentIndex + 1}</span>{" "}
-            / {total}
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-bold uppercase tracking-widest text-orange-400">
+            {quizTitle}
           </span>
-          <span className="font-medium text-slate-400">{quizTitle}</span>
+          <span className="text-xs font-semibold text-purple-400">
+            {currentIndex + 1} / {total}
+          </span>
         </div>
 
         {/* Progress bar */}
-        <div className="h-1.5 w-full rounded-full bg-indigo-100 overflow-hidden">
+        <div className="h-1.5 w-full rounded-full bg-purple-900/80 overflow-hidden">
           <div
-            className="h-full rounded-full bg-indigo-500 transition-all duration-500"
+            className="h-full rounded-full bg-orange-500 transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
         </div>
 
         {/* Question card */}
-        <div className="rounded-3xl bg-white shadow-lg shadow-indigo-100 px-6 py-7">
-          <p className="text-base font-semibold text-slate-800 leading-relaxed">
+        <div className="rounded-3xl bg-purple-900/60 border border-purple-700/40 px-6 py-7 shadow-lg">
+          <p className="text-base font-bold text-white leading-relaxed">
             {current.question}
           </p>
         </div>
@@ -234,16 +240,16 @@ export default function Quiz() {
                 onClick={() => setSelected(i)}
                 className={`w-full rounded-2xl px-5 py-4 text-sm text-left transition-all duration-150 ${
                   isSelected
-                    ? "bg-indigo-50 border-2 border-indigo-500 text-indigo-700 scale-[0.99]"
-                    : "bg-white border-2 border-slate-200 text-slate-700 hover:border-indigo-300 hover:bg-indigo-50 active:scale-[0.98]"
+                    ? "bg-orange-500/20 border-2 border-orange-500 text-white scale-[0.99]"
+                    : "bg-purple-900/40 border-2 border-purple-700/50 text-purple-100 hover:border-purple-500 hover:bg-purple-800/50 active:scale-[0.98]"
                 }`}
               >
                 <span className="flex items-center gap-3">
                   <span
                     className={`w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold border-2 transition-all ${
                       isSelected
-                        ? "border-indigo-500 bg-indigo-500 text-white"
-                        : "border-slate-300 text-slate-400"
+                        ? "border-orange-500 bg-orange-500 text-white"
+                        : "border-purple-600 text-purple-400"
                     }`}
                   >
                     {i + 1}
@@ -261,7 +267,7 @@ export default function Quiz() {
         <button
           onClick={handleNext}
           disabled={selected === null}
-          className="w-full rounded-2xl bg-indigo-600 py-4 text-base font-semibold text-white shadow-md shadow-indigo-200 transition-all active:scale-95 hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none"
+          className="w-full rounded-2xl bg-orange-500 py-4 text-base font-bold text-white shadow-lg shadow-orange-500/30 transition-all active:scale-95 hover:bg-orange-400 disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none"
         >
           {isLast ? "See My Result →" : "Next →"}
         </button>

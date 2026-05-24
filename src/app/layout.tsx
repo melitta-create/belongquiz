@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Practice Quiz",
-  description: "Test your knowledge with this practice quiz",
+  title: "Where do I fit? | Unfiltered 2026",
+  description: "Discover your place in the community — Youth Fest 2026",
 };
 
 export default function RootLayout({
