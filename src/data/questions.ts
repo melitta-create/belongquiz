@@ -179,4 +179,15 @@ export const questions: Question[] = [
       { text: "Expression", type: "B" },
     ],
   },
+  {
+    id: 9,
+    question: "I show up best when I can…",
+    options: [
+      { text: "Make everyone feel welcome", type: "A" },
+      { text: "Serve behind the scenes",    type: "C" },
+      { text: "Bring energy and fun",       type: "E" },
+      { text: "Explore my faith deeper",    type: "D" },
+      { text: "Create and express myself",  type: "B" },
+    ],
+  },
 ];
