@@ -20,6 +20,7 @@ export interface PersonalityType {
   textColor: string;    // Tailwind text class
   borderColor: string;  // Tailwind border class
   emoji: string;
+  image: string;        // path relative to /public
 }
 
 export const quizTitle = "Where do I fit?";
@@ -36,6 +37,7 @@ export const personalityTypes: PersonalityType[] = [
     textColor: "text-indigo-700",
     borderColor: "border-indigo-400",
     emoji: "🤝",
+    image: "/type-community-builder.png",
   },
   {
     key: "B",
@@ -47,6 +49,7 @@ export const personalityTypes: PersonalityType[] = [
     textColor: "text-violet-700",
     borderColor: "border-violet-400",
     emoji: "🎨",
+    image: "/type-creative-communicator.png",
   },
   {
     key: "C",
@@ -58,6 +61,7 @@ export const personalityTypes: PersonalityType[] = [
     textColor: "text-emerald-700",
     borderColor: "border-emerald-400",
     emoji: "🙌",
+    image: "/type-servant-heart.png",
   },
   {
     key: "D",
@@ -69,6 +73,7 @@ export const personalityTypes: PersonalityType[] = [
     textColor: "text-amber-700",
     borderColor: "border-amber-400",
     emoji: "✨",
+    image: "/type-faith-seeker.png",
   },
   {
     key: "E",
@@ -80,6 +85,7 @@ export const personalityTypes: PersonalityType[] = [
     textColor: "text-rose-700",
     borderColor: "border-rose-400",
     emoji: "⚡",
+    image: "/type-active-connector.png",
   },
 ];
 

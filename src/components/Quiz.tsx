@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   questions,
   personalityTypes,
@@ -68,35 +69,45 @@ export default function Quiz() {
   if (phase === "start") {
     return (
       <div className="flex min-h-dvh flex-col items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-violet-50 px-5 py-10">
-        <div className="w-full max-w-sm rounded-3xl bg-white shadow-xl shadow-indigo-100 px-8 py-12 flex flex-col items-center gap-6 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-300 text-3xl">
-            🧭
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">{quizTitle}</h1>
-            <p className="mt-1.5 text-sm text-slate-500">{quizSubtitle}</p>
-          </div>
-
-          <div className="w-full rounded-2xl bg-slate-50 p-4 flex flex-col gap-2 text-left">
-            {personalityTypes.map((t) => (
-              <div key={t.key} className="flex items-center gap-3 text-sm">
-                <span className="text-lg w-6 text-center">{t.emoji}</span>
-                <span className="font-semibold text-slate-700">{t.name}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="w-full rounded-xl bg-indigo-50 px-4 py-3 flex items-center justify-between text-sm">
-            <span className="text-slate-500">Questions</span>
-            <span className="font-bold text-indigo-600">{total}</span>
+        <div className="w-full max-w-sm rounded-3xl bg-white shadow-xl shadow-indigo-100 overflow-hidden flex flex-col">
+          {/* Hero image */}
+          <div className="relative w-full h-52">
+            <Image
+              src="/quiz-hero.png"
+              alt="Where do I fit?"
+              fill
+              className="object-cover object-top"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+            <div className="absolute bottom-4 left-5 right-5">
+              <h1 className="text-2xl font-bold text-white drop-shadow">{quizTitle}</h1>
+              <p className="text-sm text-white/80">{quizSubtitle}</p>
+            </div>
           </div>
 
-          <button
-            onClick={handleStart}
-            className="w-full rounded-2xl bg-indigo-600 py-4 text-base font-semibold text-white shadow-md shadow-indigo-200 transition-all active:scale-95 hover:bg-indigo-700"
-          >
-            Start Quiz
-          </button>
+          <div className="px-6 py-6 flex flex-col gap-5">
+            <div className="flex flex-col gap-2">
+              {personalityTypes.map((t) => (
+                <div key={t.key} className="flex items-center gap-3 text-sm">
+                  <span className="text-lg w-6 text-center">{t.emoji}</span>
+                  <span className="font-semibold text-slate-700">{t.name}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="rounded-xl bg-indigo-50 px-4 py-3 flex items-center justify-between text-sm">
+              <span className="text-slate-500">Questions</span>
+              <span className="font-bold text-indigo-600">{total}</span>
+            </div>
+
+            <button
+              onClick={handleStart}
+              className="w-full rounded-2xl bg-indigo-600 py-4 text-base font-semibold text-white shadow-md shadow-indigo-200 transition-all active:scale-95 hover:bg-indigo-700"
+            >
+              Start Quiz
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -121,17 +132,30 @@ export default function Quiz() {
           {topTypes.map((t) => (
             <div
               key={t.key}
-              className={`w-full rounded-2xl ${t.lightColor} border-2 ${t.borderColor} px-5 py-5 flex flex-col gap-2`}
+              className={`w-full rounded-2xl overflow-hidden border-2 ${t.borderColor}`}
             >
-              <div className="flex items-center gap-3">
-                <span className="text-3xl">{t.emoji}</span>
-                <span className={`text-lg font-bold ${t.textColor}`}>
-                  {t.name}
-                </span>
+              {/* Illustration */}
+              <div className="relative w-full h-44">
+                <Image
+                  src={t.image}
+                  alt={t.name}
+                  fill
+                  className="object-cover object-center"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                <div className="absolute bottom-3 left-4 flex items-center gap-2">
+                  <span className="text-2xl">{t.emoji}</span>
+                  <span className="text-base font-bold text-white drop-shadow">
+                    {t.name}
+                  </span>
+                </div>
               </div>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                {t.description}
-              </p>
+              {/* Description */}
+              <div className={`${t.lightColor} px-5 py-4`}>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {t.description}
+                </p>
+              </div>
             </div>
           ))}
 
