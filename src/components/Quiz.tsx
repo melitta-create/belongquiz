@@ -161,12 +161,12 @@ export default function Quiz() {
             </div>
           ))}
 
-          {/* Stats toggle link */}
+          {/* Stats toggle button */}
           <button
             onClick={() => setShowStats((s) => !s)}
-            className="text-sm font-semibold text-purple-400 underline underline-offset-4 hover:text-orange-400 transition-colors"
+            className="w-full rounded-2xl border-2 border-purple-500 bg-purple-900/40 py-4 text-base font-bold text-purple-200 transition-all active:scale-95 hover:border-orange-400 hover:text-orange-400 hover:bg-orange-500/10"
           >
-            {showStats ? "Hide stats ↑" : "See my full breakdown →"}
+            {showStats ? "Hide Breakdown ↑" : "📊 See My Full Breakdown"}
           </button>
 
           {/* Collapsible breakdown */}
